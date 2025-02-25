@@ -4,6 +4,16 @@ import pandas as pd
 
 #function that retrieves url info for each of the repositories based on a csv file row
 def parse_row_info(row):
+  #repository owner name and repository name initialization
+  
+  #initialize path string
+
+  #iterate through remaining columns within the row
+
+    #check object is a string type
+      #add object content to current string path
+
+  #return relevant data about repository
   return #placeholder
   
 #function that retrieves all the types of a specific file in a section of a repository
