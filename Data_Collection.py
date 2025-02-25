@@ -57,3 +57,9 @@ def java_to_text(repo_owner, repo, file_name, file_path):
       file.write(response.text)
   
 #main section running through the csv file with repository data
+#initialize data frame from csv file
+
+#iterate through rows within the data frame
+
+  #call row parsing information
+  #call file retrieving function
