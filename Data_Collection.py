@@ -28,6 +28,13 @@ def get_files (repo_owner, repo, path, file_extension):
   
 #function that creates a text file with the data collected
 def java_to_text(repo_owner, repo, file_name, file_path):
+  #initialize url
+
+  #retrieve response with request module
+
+  #check success of request
+
+    #write file text to new file in current repo
   return #placeholder
   
 #main section running through the csv file with repository data
