@@ -54,7 +54,7 @@ def get_files (repo_owner, repo, path, file_extension):
       #check if file name ends with the correct file extension
       if file['name'].endswith(file_extension):
         #call file write function
-        java_to_txt(repo_owner, repo, file['name'], file['path'])
+        java_to_text(repo_owner, repo, file['name'], file['path'])
   
 #main section running through the csv file with repository data
 #initialize data frame from csv file
