@@ -8,6 +8,20 @@ def parse_row_info(row):
   
 #function that retrieves all the types of a specific file in a section of a repository
 def get_files (repo_owner, repo, path, file_extension):
+  #initialize url
+
+  #retrieve response with request module
+
+  #check success of request
+
+  #initialize tree data and files container
+
+  #iterate through all files/folders within the tree
+  
+    #check if file name ends with the correct file extension
+      
+      #call file write function
+      
   return #placeholder
   
 #function that creates a text file with the data collected
