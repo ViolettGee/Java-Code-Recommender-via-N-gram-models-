@@ -5,16 +5,21 @@ import pandas as pd
 #function that retrieves url info for each of the repositories based on a csv file row
 def parse_row_info(row):
   #repository owner name and repository name initialization
+  repo_owner = row[0]
+  repo = row[1]
   
   #initialize path string
-
+  path = ""
   #iterate through remaining columns within the row
-
+  for i in range(len(row) - 2):
+    
     #check object is a string type
+    if type(row[i+2] == type('str'):
       #add object content to current string path
+      path = path + '/' + row[i+2]
 
   #return relevant data about repository
-  return #placeholder
+  return(repo_owner, repo, path)
   
 #function that retrieves all the types of a specific file in a section of a repository
 def get_files (repo_owner, repo, path, file_extension):
@@ -50,7 +55,5 @@ def java_to_text(repo_owner, repo, file_name, file_path):
     #write file text to new file in current repo
     with open(f"RawData/{repo}{file_name}.txt", 'w') as file:
       file.write(response.text)
-      
-  return #placeholder
   
 #main section running through the csv file with repository data
