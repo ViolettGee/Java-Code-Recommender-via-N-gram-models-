@@ -29,12 +29,18 @@ def get_files (repo_owner, repo, path, file_extension):
 #function that creates a text file with the data collected
 def java_to_text(repo_owner, repo, file_name, file_path):
   #initialize url
-
+  url = f"https://raw.githubusercontent.com/{repo_owner}/{repo}/master/{file_path}"
+  
   #retrieve response with request module
-
+  response = requests.get(url)
+  
   #check success of request
+  if response.status_code == 200:
 
     #write file text to new file in current repo
+    with open(f"RawData/{repo}{file_name}.txt", 'w') as file:
+      file.write(response.text)
+      
   return #placeholder
   
 #main section running through the csv file with repository data
