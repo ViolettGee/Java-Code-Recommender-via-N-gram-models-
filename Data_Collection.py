@@ -58,8 +58,15 @@ def java_to_text(repo_owner, repo, file_name, file_path):
   
 #main section running through the csv file with repository data
 #initialize data frame from csv file
+df = pd.read_csv('Assignment1Data.csv')
 
 #iterate through rows within the data frame
-
+i = 0
+while i < df.shape[0]:
+  
   #call row parsing information
+  repo_owner, repo, path = parse_row_info(df.iloc[i])
   #call file retrieving function
+  get_files(repo_owner, repo, path, '.java')
+
+  i = i + 1
