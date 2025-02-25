@@ -9,20 +9,22 @@ def parse_row_info(row):
 #function that retrieves all the types of a specific file in a section of a repository
 def get_files (repo_owner, repo, path, file_extension):
   #initialize url
-
-  #retrieve response with request module
-
-  #check success of request
-
-  #initialize tree data and files container
-
-  #iterate through all files/folders within the tree
+  url = f"https://api.github.com/repos/{repo_owner}/{repo}/contents/{path}"
   
-    #check if file name ends with the correct file extension
-      
-      #call file write function
-      
-  return #placeholder
+  #retrieve response with request module
+  response = requests.get(url)
+  
+  #check success of request
+  if response.status_code == 200:
+    #initialize tree data
+    tree = response.json()
+    
+    #iterate through all files/folders within the tree
+    for file in tree:
+      #check if file name ends with the correct file extension
+      if file['name'].endswith(file_extension):
+        #call file write function
+        java_to_txt(repo_owner, repo, file['name'], file['path'])
   
 #function that creates a text file with the data collected
 def java_to_text(repo_owner, repo, file_name, file_path):
