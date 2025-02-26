@@ -12,9 +12,13 @@ def remove_duplicates(data):
     
 #function that removes all none ASCII characters
 def filet_ascii_methods(data):
-    return #placeholder
-#searches column and removes non ASCII characters
 
+    #searches column and removes non ASCII characters
+    data = data[data["Method Text"].apply(lambda x: all(ord(char) < 128 for char in x))]
+    data = data[data["Method Names"].apply(lambda x: all(ord(char) < 128 for char in x))]
+
+    return data
+    
 #function that removes outlier methods
 def remove_outliers(data, lower_percentile = 5, upper_percentile = 95):
     return #placeholder
