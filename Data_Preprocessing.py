@@ -47,11 +47,16 @@ def remove_boilerplate_methods(data):
     
 #function that removes comments from methods
 def remove_comments(data):
-    return #placeholder
-#initialize regex string
 
-#removes sections of text that apply to the regex string
+    #initialize regex string
+    comment_patterns = [ r"//.*$", r"/\*[\s\S]*?\*/", r"//.*", ]
+    comment_regex = re.compile("|".join(comment_patterns))
+    
+    #removes sections of text that apply to the regex string
+    data = data[~data["Method Text"].apply(lambda x: bool(comment_regex.search(x)))]
 
+    return data
+    
 #function that retrieves methods from a file
 def parse_java_methods(file):
     return #placeholder
