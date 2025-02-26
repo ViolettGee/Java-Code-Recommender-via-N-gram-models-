@@ -96,27 +96,42 @@ def parse_java_methods(file):
 #main section that calls the functions to preprocess the data in the data frame
 
 #initialize the folder path using the Path module
+folder_path = Path("Raw_Data")
 
 #initialize the empty data frame for file data to be added to
+df = pd.DataFrame(columns = ["Method Names", "Method Text"])
 
 #iterate through files in the folder
-
-#check if the file is actulaly a file
-
-#call to the java method parse function to collect data from the file
-
-#iterate through the function call output
-
-#add the method data to the data frame
-
+for file_path in folder_path.iterdir():
+    
+    #check if the file is actulaly a file
+    if file_path.is_file():
+        
+        #call to the java method parse function to collect data from the file
+        data = parse_java_methods(file_path)
+        
+        #iterate through the function call output
+        for method in data:
+            
+            #add the method data to the data frame
+            df.loc[-1] = [method[0], method[1]]
+            df.index = df.index + 1
+            df = df.sort_index()
+            
 #call the remove duplicates function on the data frame
+df = remove_duplicates(df)
 
 #call the remove non-ascii characters function on the data frame
+df = filter_ascii_methods(df)
 
 #call the remove outliers function on the data frame
+df = remove_outliers(df)
 
 #call the remove boilerplate function on the data frame
+df = remove_boilerplate_methods(df)
 
 #call the remove commments function on the data frame
+df = remove_comments(df)
 
 #write the data frame to a new csv file
+df.to_csv('preprocessed_data.csv')
