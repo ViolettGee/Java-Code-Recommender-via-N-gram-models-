@@ -4,6 +4,8 @@ import pandas as pd
 
 #function that retrieves url info for each of the repositories based on a csv file row
 def parse_row_info (row):
+  row = row[0].split(',')
+  
   #repository owner name and repository name initialization
   repo_owner = row[0]
   repo = row[1]
