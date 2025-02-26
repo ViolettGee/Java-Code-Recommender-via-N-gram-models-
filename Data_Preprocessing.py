@@ -61,7 +61,7 @@ def remove_comments(data):
 def parse_java_methods(file):
 
     #open and read the content from a file
-    with open(file, 'r') as f:
+    with open(file, 'r', encoding = "utf8") as f:
         content = f.read()
         
     #initialize a list with the text and initialize a method container
