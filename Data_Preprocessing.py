@@ -11,7 +11,7 @@ def remove_duplicates(data):
     return data.drop_duplicates(keep = "first")
     
 #function that removes all none ASCII characters
-def filet_ascii_methods(data):
+def filter_ascii_methods(data):
 
     #searches column and removes non ASCII characters
     data = data[data["Method Text"].apply(lambda x: all(ord(char) < 128 for char in x))]
@@ -30,7 +30,7 @@ def remove_outliers(data, lower_percentile = 5, upper_percentile = 95):
     upper_bound = method_lengths.quantile(upper_percentile / 100)
     
     #filters out all methods not within the calculated bounds
-    return data[(method_lengths >= lowe_bound) & (method_lengths <= upper_bound)]
+    return data[(method_lengths >= lower_bound) & (method_lengths <= upper_bound)]
     
 #function that removes boilerplate patterns
 def remove_boilerplate_methods(data):
@@ -64,8 +64,15 @@ def parse_java_methods(file):
     with open(file, 'r', encoding = "utf8") as f:
         content = f.read()
         
-    #initialize a list with the text and initialize a method container
-    tree = javalang.parse.parse(content)
+    #initialize a list with the text
+    try: 
+        tree = javalang.parse.parse(content)
+        
+    #catch error thats generated from bad java code
+    except javalang.parser.JavaSyntaxError:
+        return []
+
+    #initialize a method container
     methods = []
     
     #iterate through the sections of the file text
