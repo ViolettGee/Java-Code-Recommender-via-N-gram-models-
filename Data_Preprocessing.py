@@ -1,15 +1,22 @@
 #import necessary libraries
+from pathlib import Path
+import pandas as pd
+import javalang
+import re
 
 #function that removes duplicates from the data
-
+def remove_duplicates(data):
+    return #placeholder
 #removes verbatim duplicates from the data
 
 #function that removes all none ASCII characters
-
+def filet_ascii_methods(data):
+    return #placeholder
 #searches column and removes non ASCII characters
 
 #function that removes outlier methods
-
+def remove_outliers(data, lower_percentile = 5, upper_percentile = 95):
+    return #placeholder
 #determine the mehtod lengths of a column
 
 #calculate lower and upper bounds
@@ -17,19 +24,22 @@
 #filters out all methods not within the calculated bounds
 
 #function that removes boilerplate patterns
-
+def remove_boilerplate_methods(data):
+    return #placeholder
 #initialize regex string
 
 #removes sections of text that apply to the regex string
 
 #function that removes comments from methods
-
+def remove_comments(data):
+    return #placeholder
 #initialize regex string
 
 #removes sections of text that apply to the regex string
 
 #function that retrieves methods from a file
-
+def parse_java_methods(file):
+    return #placeholder
 #open and read the content from a file
 
 #initialize a list with the text and initialize a method container
@@ -47,6 +57,7 @@
 #use the method start and end to get the text from the method
 
 #add method information to the method container
+
 
 #main section that calls the functions to preprocess the data in the data frame
 
