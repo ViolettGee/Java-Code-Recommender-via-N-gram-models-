@@ -33,7 +33,7 @@ def java_to_text (repo_owner, repo, file_name, file_path):
   if response.status_code == 200:
 
     #write file text to new file in current repo
-    with open(f"RawData/{repo}{file_name}.txt", 'w') as file:
+    with open(f"Raw_Data/{repo}{file_name}.txt", 'w') as file:
       file.write(response.text)
   
 #function that retrieves all the types of a specific file in a section of a repository
