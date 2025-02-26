@@ -6,9 +6,10 @@ import re
 
 #function that removes duplicates from the data
 def remove_duplicates(data):
-    return #placeholder
-#removes verbatim duplicates from the data
 
+    #removes verbatim duplicates from the data
+    return data.drop_duplicates(keep = "first")
+    
 #function that removes all none ASCII characters
 def filet_ascii_methods(data):
     return #placeholder
