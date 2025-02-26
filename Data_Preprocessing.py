@@ -84,12 +84,11 @@ def parse_java_methods(file):
             #initialize the position of the file where the method starts
             method_start = node.position.line
 
-            #check for if there is a body to the method
+            #initialize the positon of the file where the method ends
             if node.body:
-                #initialize the positon of the file where the method ends
-                method_end = node.position.line + len(node.body)
+                method_end = node.position.line + len(node.body) + 1
             else:
-                method_end = method_start
+                method_end = method_start + 1
 
             #use the method start and end to get the text from the method
             method_text = '\n'.join(content.splitlines()[method_start-1:method_end])
