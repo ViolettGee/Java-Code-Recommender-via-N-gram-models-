@@ -34,11 +34,17 @@ def remove_outliers(data, lower_percentile = 5, upper_percentile = 95):
     
 #function that removes boilerplate patterns
 def remove_boilerplate_methods(data):
-    return #placeholder
-#initialize regex string
 
-#removes sections of text that apply to the regex string
+    #initialize regex string
+    boilerplate_patterns = [ r"\bset[A-Z][a-zA-Z0-9_]*\(.*\)\s*{",
+                             r"\bget[A-Z][a-zA-Z0-9_]*\(.*\)\s*{", ]
+    boilerplate_regex = re.compile("|".join(boilerplate_patterns))
+    
+    #removes sections of text that apply to the regex string
+    data = data[~data["Method Text"].apply(lambda x: bool(boilerplate_regex.search(x)))]
 
+    return data
+    
 #function that removes comments from methods
 def remove_comments(data):
     return #placeholder
