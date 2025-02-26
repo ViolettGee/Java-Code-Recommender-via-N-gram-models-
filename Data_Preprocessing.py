@@ -21,13 +21,17 @@ def filet_ascii_methods(data):
     
 #function that removes outlier methods
 def remove_outliers(data, lower_percentile = 5, upper_percentile = 95):
-    return #placeholder
-#determine the mehtod lengths of a column
 
-#calculate lower and upper bounds
-
-#filters out all methods not within the calculated bounds
-
+    #determine the method lengths of a column
+    method_lengths = data["Method Text"].apply(len)
+    
+    #calculate lower and upper bounds
+    lower_bound = method_lengths.quantile(lower_percentile / 100)
+    upper_bound = method_lengths.quantile(upper_percentile / 100)
+    
+    #filters out all methods not within the calculated bounds
+    return data[(method_lengths >= lowe_bound) & (method_lengths <= upper_bound)]
+    
 #function that removes boilerplate patterns
 def remove_boilerplate_methods(data):
     return #placeholder
