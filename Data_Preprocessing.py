@@ -59,25 +59,39 @@ def remove_comments(data):
     
 #function that retrieves methods from a file
 def parse_java_methods(file):
-    return #placeholder
-#open and read the content from a file
 
-#initialize a list with the text and initialize a method container
+    #open and read the content from a file
+    with open(file, 'r') as f:
+        content = f.read()
+        
+    #initialize a list with the text and initialize a method container
+    tree = javalang.parse.parse(content)
+    methods = []
+    
+    #iterate through the sections of the file text
+    for path, node in tree:
+        
+        #check if that section of the data is a method
+        if isinstance(node, javalang.tree.MethodDeclaration):
+            
+            #initialize the position of the file where the method starts
+            method_start = node.position.line
 
-#iterate through the sections of the file text
+            #check for if there is a body to the method
+            if node.body:
+                #initialize the positon of the file where the method ends
+                method_end = node.position.line + len(node.body)
+            else:
+                method_end = method_start
 
-#check if that section of the data is a method
-
-#initialize the position of the file where the method starts
-
-#check for if there is a body to the method
-
-#initialize the position of the file where the method ends
-
-#use the method start and end to get the text from the method
-
-#add method information to the method container
-
+            #use the method start and end to get the text from the method
+            method_text = '\n'.join(content.splitlines()[method_start-1:method_end])
+            
+            #add method information to the method container
+            methods.append((node.name, method_text))
+            
+    return methods
+    
 
 #main section that calls the functions to preprocess the data in the data frame
 
