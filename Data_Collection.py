@@ -1,10 +1,10 @@
 #import necessary libraries
 import requests
 import pandas as pd
+from pathlib import Path
 
 #function that retrieves url info for each of the repositories based on a csv file row
 def parse_row_info (row):
-  row = row[0].split(',')
   
   #repository owner name and repository name initialization
   repo_owner = row[0]
@@ -24,7 +24,7 @@ def parse_row_info (row):
   return(repo_owner, repo, path)
 
 #function that creates a text file with the data collected
-def java_to_text (repo_owner, repo, file_name, file_path):
+def java_to_text (repo_owner, repo, file_path):
   #initialize url
   url = f"https://raw.githubusercontent.com/{repo_owner}/{repo}/master/{file_path}"
 
@@ -34,10 +34,16 @@ def java_to_text (repo_owner, repo, file_name, file_path):
   #check success of request
   if response.status_code == 200:
 
-    #write file text to new file in current repo
-    with open(f"Raw_Data/{repo}{file_name}.txt", 'w') as file:
-      file.write(response.text)
+    if Path(f"Raw_Data/{repo}.txt").exists():
   
+      #write file text to new file in current repo
+      with open(f"Raw_Data/{repo}.txt", 'a') as file:
+        file.append(response.text)
+
+    else:
+
+      with open(f"Raw_Data/{repo}.txt", 'w') as file:
+        file.write(response.text)
 #function that retrieves all the types of a specific file in a section of a repository
 def get_files (repo_owner, repo, path, file_extension):
   #initialize url
@@ -56,7 +62,7 @@ def get_files (repo_owner, repo, path, file_extension):
       #check if file name ends with the correct file extension
       if file['name'].endswith(file_extension):
         #call file write function
-        java_to_text(repo_owner, repo, file['name'], file['path'])
+        java_to_text(repo_owner, repo, file['path'])
   
 #main section running through the csv file with repository data
 #initialize data frame from csv file
@@ -67,7 +73,7 @@ i = 0
 while i < df.shape[0]:
   
   #call row parsing information
-  repo_owner, repo, path = parse_row_info(df.iloc[i])
+  repo_owner, repo, path = parse_row_info(df.iloc[i][0])
   #call file retrieving function
   get_files(repo_owner, repo, path, '.java')
 
