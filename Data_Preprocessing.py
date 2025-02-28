@@ -138,6 +138,7 @@ df = remove_boilerplate_methods(df)
 
 #call the remove commments function on the data frame
 df = remove_comments(df)
+print(df)
 
 #write the data frame to a new csv file
 df.to_csv('preprocessed_data.csv')
