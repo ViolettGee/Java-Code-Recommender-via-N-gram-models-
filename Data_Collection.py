@@ -6,8 +6,8 @@ import csv
 #function that retrieves url info for each of the repositories based on a csv file row
 def parse_row_info (row):
     #repository owner name and repository name initialization
-    row = [item.strip() for item in row[0].split('\t')]
-    
+    print(row)
+    #row = [item.strip() for item in row[0].split('\t')]
     repo_owner = row[0]
     repo = row[1]
     
@@ -80,7 +80,7 @@ def get_files (repo_owner, repo, path, file_extension):
   
 #main section running through the csv file with repository data
 #initialize from csv file
-with open('Assignment1Data.csv', 'r') as f:
+with open('output.csv', 'r') as f:
     reader = csv.reader(f)
     
     #iterate through rows within the file

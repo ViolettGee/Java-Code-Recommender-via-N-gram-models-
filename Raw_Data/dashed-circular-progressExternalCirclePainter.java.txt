@@ -5,3 +5,10 @@ package com.github.glomadrian.dashedcircularprogress.painter;
  */
 public interface ExternalCirclePainter extends Painter {
 }
+package com.github.glomadrian.dashedcircularprogress.painter;
+
+/**
+ * @author Adrián García Lomas
+ */
+public interface ExternalCirclePainter extends Painter {
+}
