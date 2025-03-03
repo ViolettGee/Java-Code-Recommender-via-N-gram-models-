@@ -32,19 +32,6 @@ def remove_outliers(data, lower_percentile = 5, upper_percentile = 95):
     #filters out all methods not within the calculated bounds
     return data[(method_lengths >= lower_bound) & (method_lengths <= upper_bound)]
     
-#function that removes boilerplate patterns
-def remove_boilerplate_methods(data):
-
-    #initialize regex string
-    boilerplate_patterns = [ r"\bset[A-Z][a-zA-Z0-9_]*\(.*\)\s*{",
-                             r"\bget[A-Z][a-zA-Z0-9_]*\(.*\)\s*{", ]
-    boilerplate_regex = re.compile("|".join(boilerplate_patterns))
-    
-    #removes sections of text that apply to the regex string
-    data = data[~data["Method Text"].apply(lambda x: bool(boilerplate_regex.search(x)))]
-
-    return data
-    
 #function that removes comments from methods
 def remove_comments(data):
 
@@ -59,7 +46,7 @@ def remove_comments(data):
     
 #function that retrieves methods from a file
 def parse_java_methods(file):
-
+    print(file)
     #open and read the content from a file
     with open(file, 'r', encoding = "utf8") as f:
         content = f.read()
@@ -69,7 +56,7 @@ def parse_java_methods(file):
         tree = javalang.parse.parse(content)
         
     #catch error thats generated from bad java code
-    except javalang.parser.JavaSyntaxError:
+    except:
         return []
 
     #initialize a method container
@@ -132,9 +119,6 @@ df = filter_ascii_methods(df)
 
 #call the remove outliers function on the data frame
 df = remove_outliers(df)
-
-#call the remove boilerplate function on the data frame
-df = remove_boilerplate_methods(df)
 
 #call the remove commments function on the data frame
 df = remove_comments(df)
