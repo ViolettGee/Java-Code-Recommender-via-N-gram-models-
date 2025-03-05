@@ -3,6 +3,7 @@ from pathlib import Path
 import pandas as pd
 import javalang
 import re
+import numpy as np
 
 #function that removes duplicates from the data
 def remove_duplicates(data):
@@ -43,10 +44,22 @@ def remove_comments(data):
     data = data[~data["Method Text"].apply(lambda x: bool(comment_regex.search(x)))]
 
     return data
+
+#function that removes boiler plate data from methods
+def remove_boilerplate_methods(data):
+
+    #initialize regex string
+    boilerplate_patterns = [ r"\bset[A-Z][a-zA-Z0-9_]*\(.*\)\s*{",
+                            r"\bget[A-Z][a-zA-Z0-9_]*\(.*\)\s*{", ]
+    boilerplate_regex = re.compile("|".join(boilerplate_patterns))
+    
+    #removes sections of text that apply to the regex string
+    data = data[~data["Method Text"].apply(lambda x: bool(boilerplate_regex.search(x)))]
+    return data
     
 #function that retrieves methods from a file
 def parse_java_methods(file):
-    print(file)
+
     #open and read the content from a file
     with open(file, 'r', encoding = "utf8") as f:
         content = f.read()
@@ -122,6 +135,10 @@ df = remove_outliers(df)
 
 #call the remove commments function on the data frame
 df = remove_comments(df)
+
+df = remove_boilerplate_methods(df)
+
+df.index = np.arange(df.shape[0])
 print(df)
 
 #write the data frame to a new csv file

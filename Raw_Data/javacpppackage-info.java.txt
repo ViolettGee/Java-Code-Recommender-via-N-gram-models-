@@ -1,0 +1,52 @@
+/**
+ * Contains the main set of classes for JavaCPP at runtime.
+ */
+@org.osgi.annotation.bundle.Export
+package org.bytedeco.javacpp;
+/**
+ * Contains all the annotation classes used by JavaCPP.
+ */
+@org.osgi.annotation.bundle.Export
+package org.bytedeco.javacpp.annotation;
+/**
+ * Contains classes for multidimensional access of arrays and buffers.
+ */
+@org.osgi.annotation.bundle.Export
+package org.bytedeco.javacpp.indexer;
+/**
+ * Contains base presets which can be inherited.
+ */
+@org.osgi.annotation.bundle.Export
+package org.bytedeco.javacpp.presets;
+/**
+ * Contains classes used at build time by JavaCPP.
+ */
+@org.osgi.annotation.bundle.Export(
+		attribute="exclude:=\"BuildMojo,ParseMojo,CacheMojo\"")
+package org.bytedeco.javacpp.tools;
+/**
+ * Contains the main set of classes for JavaCPP at runtime.
+ */
+@org.osgi.annotation.bundle.Export
+package org.bytedeco.javacpp;
+/**
+ * Contains all the annotation classes used by JavaCPP.
+ */
+@org.osgi.annotation.bundle.Export
+package org.bytedeco.javacpp.annotation;
+/**
+ * Contains classes for multidimensional access of arrays and buffers.
+ */
+@org.osgi.annotation.bundle.Export
+package org.bytedeco.javacpp.indexer;
+/**
+ * Contains base presets which can be inherited.
+ */
+@org.osgi.annotation.bundle.Export
+package org.bytedeco.javacpp.presets;
+/**
+ * Contains classes used at build time by JavaCPP.
+ */
+@org.osgi.annotation.bundle.Export(
+		attribute="exclude:=\"BuildMojo,ParseMojo,CacheMojo\"")
+package org.bytedeco.javacpp.tools;
