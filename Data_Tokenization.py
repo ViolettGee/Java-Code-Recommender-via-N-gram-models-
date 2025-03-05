@@ -34,15 +34,23 @@ def write_rows(method_names, method_texts):
             
 #main code that reads the preprocessed data and calls the above methods to tokenize the data
 #open the preprocessed data file for tokenization
-
+with open('preprocessed_data.csv', 'r') as file:
+    
     #initialize the reader object for the file using the csv module
-
+    reader = csv.reader(file)
+    
     #initialize the output lists
-
+    method_names = [0]*(len(reader)-1)
+    method_texts = [0]*(len(reader)-1)
+    
     #iterate through the rows of the file using the reader object
-
+    for index in range(len(reader)-1):
+        
         #save the method name to the output list
-
+        method_names[index] = reader[index+1][1]
+        
         #save the tokenization from the method call to the output list
+        method_texts[index] = method_tokenization(reader[index+1][2])
 
-#call the data writing functio
+#call the function to write the output to a csv file
+write_rows(method_names, method_texts)
