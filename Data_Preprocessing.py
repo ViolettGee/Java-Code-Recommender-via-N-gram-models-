@@ -37,7 +37,7 @@ def remove_outliers(data, lower_percentile = 5, upper_percentile = 95):
 def remove_comments(data):
 
     #initialize regex string
-    comment_patterns = [ r"//.*$", r"/\*[\s\S]*?\*/", r"//.*", ]
+    comment_patterns = [ r"//.*$", r"/\*[\s\S]*?\*/", r"//.*", r"/\*[.]*",]
     comment_regex = re.compile("|".join(comment_patterns))
     
     #removes sections of text that apply to the regex string
