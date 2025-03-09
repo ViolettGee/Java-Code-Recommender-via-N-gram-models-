@@ -1,8 +1,11 @@
 #initialize libraries
-import math
+import numpy as np
+from decimal import Decimal
 import javalang
 import csv
 import pickle
+import random
+import sys
 
 #class containing the n-gram model
 class Ngram:
@@ -13,18 +16,18 @@ class Ngram:
         self.train = training_data
         self.test = test_data
 
-        self.n_gram = self.__initiailize()
+        self.n_gram = self.__initialize()
 
     #return n_value
-    def get_n(self):
-        return(self.n)
+    def get_ngram(self):
+        return(self.n_gram)
         
     #determine the probability of the n grams occurrences
-    def __initialize(self, data = self.train):
-        
-        #initialize dictionary for the count of the given occurrences
-        dict_given = {}
-        
+    def __initialize(self, data = ''):
+        #update data for if no input
+        if data == '':
+            data = self.train
+                
         #initialize the dictionary for the probability of a token given the n with a set of data
         output = {}
         
@@ -33,96 +36,61 @@ class Ngram:
         for method in data:
             #iterate through the tokens in the data
             for i in range(len(method)):
+                
+                #check if number of tokens is greater than n
+                if i > self.n:
+                    #if n is 1 check that the empty token exists in the current dictionary
 
-                #check if n is 1
-                if self.n == 1:
-                    #check if the token exists in the dictionary
-                    if str(method[i]) in output:
-                        output[method[i]] = outpu[method[i]] + 1
-                    else:
-                        output[method[i]] = 1
-                    
-                    dict_given = {"this":0}
-                    total = total + 1
+                        #check if the current token exists for the empty key value
 
-                else:
-                    #check if the number of tokens is greater than n
-                    if (i+1) >= self.n:
-                        
-                        #check if the sequence of tokens exists
-                        if str(method[(i-self.n):i]) in dict_given:
                             #increment the number of occurrences
-                            dict_given[str(method[(i-self.n)])] = dict_given[str(method[(i-self.n)])]
 
-                            #check if the sequence of tokens n exists **ending should be its own occurence as well
-                            if str(method[i]) in output[str(method[(i-self.n):i])]:
-                                #increment the number of occurrences
-                                output[str(method[(i-self.n):i])][method[i]] = output[str(method[(i-self.n):i])][method[i]] + 1
-                                
-                            else:
-                                #initialize the occurence of the sequence of tokens n exists
-                                output[str(method[(i-self.n):i])][method[i]] = 1
-                        else:
-                            #initialize the occurences of the sequence of tokens n exists
-                            dict_given[str(method[(i-self.n):i])] = 1
-                            output[str(method[(i-self.n):i])] = {method[i]:1}
+                            #initialize the dictionary for the word after the sequence
 
-                        total = total + 1
-
-        #iterate through keys in the occurrence count dictionary
-        for occurrence in dict_given:
-            #iterate through keys in the conditional count dictionary
-            for conditional in output:
+                        #initialize the outer dictionary and inner dictionary
                     
-                #check if n equals 1
-                if self.n == 1:
-                        
-                    #divide each of the values by the total
-                    output[conditional] = output[conditional]/total
+                    #check if the sequence of tokens exists in the current dictionary
 
-                else:
-                    
-                    #divide occurences by total
-                    dict_given[occurrence] = dict_given[occurrence]/total
-                    #divide conditional by total
-                    output[occurrence][conditional] = output[occurrence][conditional]/total
+                        #check if the current token exists for the current key value
 
-                    #divide condtional by the occurences
-                    output[occurrence][conditional] = output[occurrence][conditional]/dict_given[occurrence]
+                            #increment the number of occurrences
+
+                            #initialize the dictionary for the word after the sequence
+
+                        #initialize the outer dictionary and inner dictionary
 
         return(output)
 
     #function for evaluating the model perplexity
-    def find_perplexity(self, data = self.test):
+    def find_perplexity(self, data = ''):
+        #update data for if no input
+        if data == '':
+            data = self.train
+            test = self.n_gram
+
+        else:
+            #initialize the dictionary for test data
+            test = self.__initialize(data)
+
+        #initialize containers
         
-        #initialize the dictionary for test data
-        test = self.__initialize(data)
+        #iterate through the ngram dictionary values
 
-        product = 1
-        summation = 0
-        #iterate through the dictionary
-        for value in test.values:
-            
-            #check if n is equal to 1
-            if self.n == 1:
-                #product each probability
-                product = value * product
-                #sum the number of probabilities
-                summation = value + summation
+             #sum ngram overall dictionary
 
-            else:
-                #iterate through the iternal dictionary
-                for val in value.value:
-                    
-                    #product each probability
-                    product = val * product
-                    #sum the number of probabilities
-                    summation = val + summation
+            #iterate through the values within the ngram dictionary
 
-        #inverse the product
-        product = 1/product
-        #exponent of the product by the sum
-        perplexity = math.pow(product, (1/summation))
+                #divide each value by that sum
+
+                #compute the logarithm for that probability
+
+                #sum each of the logarithms
+        
+        #divide the logarithmic sum by the negative n value
+
+        #compute the e to the divisible
+
+        #return the perplexity
 
         #return the perplexity
         return(perplexity)
@@ -133,15 +101,8 @@ class Ngram:
         #initialize max value
         max_val = 0
         
-        #check if n equals 1
-        if self.n == 1:
-            for key in self.n_gram:
-                if self.n_gram[key] > max_val:
-                    max_val = self.n_gram[key]
-                    word = key
-        
         #look for sequence in data
-        elif sequence in self.n_gram:
+        if sequence in self.n_gram:
             
             #determine most likely occurence based on n gram
             for key in self.n_gram[sequence]:
@@ -204,7 +165,7 @@ if __name__ == "__main__":
             row = list(row)[1:]
             
             #seperate the data into two sections: training and testing
-            if random.randint(1,10) == 1,2:
+            if random.randint(1,5) == 1:
                 test.append(row)
             else:
                 train.append(row)
@@ -231,11 +192,15 @@ if __name__ == "__main__":
     best_p = 99999
     
     for i in range(7):
+
+        print(i+1)
         
         #initialize the model for that n value
-        model = Ngram(i, train, test)
+        model = Ngram(i+1, train, test)
         #evaluate the model for that n value
         perplexity = model.find_perplexity()
+
+        print(perplexity)
         
         #pick the current best n value or this n value based on the evaluation metric
         if best_p > perplexity:
@@ -243,5 +208,4 @@ if __name__ == "__main__":
             best_m = model
             best_p = perplexity
 
-with open('model.pkl', 'w') as file:
-    pickle.dump(model, file)
+pickle.dump(best_m, open('model.pkl', 'wb'))
