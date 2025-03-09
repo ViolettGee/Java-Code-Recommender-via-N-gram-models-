@@ -32,32 +32,49 @@ class Ngram:
         output = {}
         
         #iterate through the methods in the data
-        total = 0
         for method in data:
             #iterate through the tokens in the data
             for i in range(len(method)):
                 
                 #check if number of tokens is greater than n
                 if i > self.n:
+        
                     #if n is 1 check that the empty token exists in the current dictionary
+                    if self.n == 1:
 
                         #check if the current token exists for the empty key value
+                        if '' in output:
 
-                            #increment the number of occurrences
+                            #check if the token exists in the dictionary
+                            if method[i] in output['']:
+                                
+                                #increment the number of occurrences
+                                output[''][method[i]] = output[''] + 1
 
-                            #initialize the dictionary for the word after the sequence
+                            else:
+                                #initialize the dictionary for the word after the sequence
+                                output[''][method[i]] = 1
 
+                    else:
                         #initialize the outer dictionary and inner dictionary
-                    
-                    #check if the sequence of tokens exists in the current dictionary
+                        output[''] = {method[i] : 1}
 
-                        #check if the current token exists for the current key value
+                #check if the sequence of tokens exists in the current dictionary
+                if method[(i - self.n) : (i - 1)] in output:
+                
+                    #check if the current token exists for the current key value
+                    if method[i] in output[method[(i - self.n) : (i - 1)]]:
+                        
+                        #increment the number of occurrences
+                        output[method[(i - self.n) : (i - 1)][method[i]] = output[method[(i - self.n) : (i - 1)]][method[i]] + 1
 
-                            #increment the number of occurrences
+                    else:
+                        #initialize the dictionary for the word after the sequence
+                        output[method(i - self.n) : (i - 1)][method[i]] = 1
 
-                            #initialize the dictionary for the word after the sequence
-
-                        #initialize the outer dictionary and inner dictionary
+                else:
+                    #initialize the outer dictionary and inner dictionary
+                    output[method[(i - self.n) : (i - 1)]] = {method[i] : 1}
 
         return(output)
 
@@ -73,24 +90,32 @@ class Ngram:
             test = self.__initialize(data)
 
         #initialize containers
+        log_prob_sum = 0
         
         #iterate through the ngram dictionary values
-
-             #sum ngram overall dictionary
+        for section in data.values():
+            
+            #sum ngram overall dictionary
+            total = [x.values() for x in section]
+            total_sum = sum(total)
 
             #iterate through the values within the ngram dictionary
-
+            for token in section:
+                
                 #divide each value by that sum
+                prob = token.values() / total_sum
 
                 #compute the logarithm for that probability
+                log_prob = math.log(prob)
 
                 #sum each of the logarithms
+                log_prob_sum = log_prob_sum + log_prob
         
         #divide the logarithmic sum by the negative n value
+        perplexity = (log_prob_sum / (-self.n))
 
         #compute the e to the divisible
-
-        #return the perplexity
+        perplexity = math.e(perplexity)
 
         #return the perplexity
         return(perplexity)
