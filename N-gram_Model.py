@@ -1,11 +1,10 @@
 #initialize libraries
-import numpy as np
 from decimal import Decimal
 import javalang
 import csv
 import pickle
 import random
-import sys
+import math
 
 #class containing the n-gram model
 class Ngram:
@@ -46,35 +45,35 @@ class Ngram:
                         if '' in output:
 
                             #check if the token exists in the dictionary
-                            if method[i] in output['']:
+                            if str(method[i]) in output['']:
                                 
                                 #increment the number of occurrences
-                                output[''][method[i]] = output[''] + 1
+                                output[''][str(method[i])] = output[''] + 1
 
                             else:
                                 #initialize the dictionary for the word after the sequence
-                                output[''][method[i]] = 1
+                                output[''][str(method[i])] = 1
 
                     else:
                         #initialize the outer dictionary and inner dictionary
-                        output[''] = {method[i] : 1}
+                        output[''] = {str(method[i]) : 1}
 
                 #check if the sequence of tokens exists in the current dictionary
-                if method[(i - self.n) : (i - 1)] in output:
+                if str(method[(i - self.n) : (i - 1)]) in output:
                 
                     #check if the current token exists for the current key value
-                    if method[i] in output[method[(i - self.n) : (i - 1)]]:
+                    if str(method[i]) in output[str(method[(i - self.n) : (i - 1)])]:
                         
                         #increment the number of occurrences
-                        output[method[(i - self.n) : (i - 1)][method[i]] = output[method[(i - self.n) : (i - 1)]][method[i]] + 1
+                        output[str(method[(i - self.n) : (i - 1)])][str(method[i])] = output[str(method[(i - self.n) : (i - 1)])][str(method[i])] + 1
 
                     else:
                         #initialize the dictionary for the word after the sequence
-                        output[method(i - self.n) : (i - 1)][method[i]] = 1
+                        output[str(method[(i - self.n) : (i - 1)])][str(method[i])] = 1
 
                 else:
                     #initialize the outer dictionary and inner dictionary
-                    output[method[(i - self.n) : (i - 1)]] = {method[i] : 1}
+                    output[str(method[(i - self.n) : (i - 1)])] = {str(method[i]) : 1}
 
         return(output)
 
@@ -93,17 +92,17 @@ class Ngram:
         log_prob_sum = 0
         
         #iterate through the ngram dictionary values
-        for section in data.values():
+        for section in test.values():
             
             #sum ngram overall dictionary
-            total = [x.values() for x in section]
+            total = [x for x in section.values()]
             total_sum = sum(total)
 
             #iterate through the values within the ngram dictionary
-            for token in section:
+            for token in section.values():
                 
                 #divide each value by that sum
-                prob = token.values() / total_sum
+                prob = token / total_sum
 
                 #compute the logarithm for that probability
                 log_prob = math.log(prob)
@@ -115,7 +114,7 @@ class Ngram:
         perplexity = (log_prob_sum / (-self.n))
 
         #compute the e to the divisible
-        perplexity = math.e(perplexity)
+        perplexity = pow(Decimal(math.e), Decimal(perplexity))
 
         #return the perplexity
         return(perplexity)
