@@ -19,7 +19,7 @@ class Ngram:
 
     #return n_value
     def get_ngram(self):
-        return(self.n_gram)
+        return(self.n)
         
     #determine the probability of the n grams occurrences
     def __initialize(self, data = ''):
@@ -232,4 +232,4 @@ if __name__ == "__main__":
             best_m = model
             best_p = perplexity
 
-pickle.dump(best_m, open('model.pkl', 'wb'))
+    pickle.dump(best_m, open('model.pkl', 'wb'))
