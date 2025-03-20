@@ -63,12 +63,9 @@ def parse_java_methods(file):
     #open and read the content from a file
     with open(file, 'r', encoding = "utf8") as f:
         content = f.read()
-        
-    #initialize a list with the text
-    try: 
+    
+    try:
         tree = javalang.parse.parse(content)
-        
-    #catch error thats generated from bad java code
     except:
         return []
 
@@ -112,7 +109,7 @@ for file_path in folder_path.iterdir():
     
     #check if the file is actulaly a file
     if file_path.is_file():
-        
+        print(file_path)
         #call to the java method parse function to collect data from the file
         data = parse_java_methods(file_path)
         
@@ -123,7 +120,9 @@ for file_path in folder_path.iterdir():
             df.loc[-1] = [method[0], method[1]]
             df.index = df.index + 1
             df = df.sort_index()
-            
+
+print(f"total methods: {df.shape[0]}")
+
 #call the remove duplicates function on the data frame
 df = remove_duplicates(df)
 

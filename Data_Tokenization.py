@@ -15,10 +15,10 @@ def method_tokenization(text):
     return(tokens)
 
 #function that writes to an output csv the tokenization data
-def write_rows(method_names, method_texts):
+def write_rows(method_names, method_texts, file = 'tokenized_data.csv'):
     
     #open the output file for the tokenization data
-    with open('tokenized_data.csv', 'w', encoding = "utf-8", newline = '') as f:
+    with open(file, 'w', encoding = "utf-8", newline = '') as f:
         
         #initialize the writer object for the file using the csv module
         writer = csv.writer(f)
@@ -30,7 +30,12 @@ def write_rows(method_names, method_texts):
             row = [0]
             row[0] = method_names[i+1]
             for token in method_texts[i+1]:
-                row.append(token.value)
+
+                #seperate variable names from syntax
+                if type(token) == type(javalang.tokenizer.Identifier(token)):
+                    row.append('insert_identifier')
+                else:
+                    row.append(token.value)
             
             #write to the file using the writer object
             writer.writerow(row)

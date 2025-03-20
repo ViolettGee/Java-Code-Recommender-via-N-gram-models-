@@ -3,17 +3,15 @@ from decimal import Decimal
 import javalang
 import csv
 import pickle
-import random
 import math
 
 #class containing the n-gram model
 class Ngram:
     
     #initialize the n-gram model with the data
-    def __init__(self, n, training_data, test_data):
+    def __init__(self, n, training_data):
         self.n = n
         self.train = training_data
-        self.test = test_data
 
         self.n_gram = self.__initialize()
 
@@ -48,7 +46,7 @@ class Ngram:
                             if str(method[i]) in output['']:
                                 
                                 #increment the number of occurrences
-                                output[''][str(method[i])] = output[''] + 1
+                                output[''][str(method[i])] = output[''][str(method[i])] + 1
 
                             else:
                                 #initialize the dictionary for the word after the sequence
@@ -142,18 +140,11 @@ class Ngram:
 
     #function for predicting sequence based on a sequence
     def write_method(self, text):
-        #tokenize the prompt
-        tokens = list(javalang.tokenizer.tokenize(text))
-        token_vals = [0]*len(tokens)
-        for i in range(len(tokens)):
-            token_vals = tokens[i].value
-            
         #determine the last n tokens
-        prompt = token_vals[-(self.n-1):]
-
+        prompt = text[-(self.n-1):]
         #initialize placeholders
         next_word = 'a'
-        output = []
+        output = text
         
         #do while loop for predicting the next word until the sequence ends        
         while (next_word != ''):
@@ -161,7 +152,7 @@ class Ngram:
             if self.n == 1:
                 next_word = self.__predict_next_word()
             else:
-                next_word = self.__predict_next_word(prompt)
+                next_word = self.__predict_next_word(str(prompt))
                 
                 #determine the tokens of the next occurrence
                 prompt.append(next_word)
@@ -185,14 +176,17 @@ if __name__ == "__main__":
         #initialize reader object using csv module
         reader = csv.reader(file)
 
+        #initialize counter
+        count = 0
         for row in reader:
             row = list(row)[1:]
             
             #seperate the data into two sections: training and testing
-            if random.randint(1,5) == 1:
+            if (count % 5) == 0:
                 test.append(row)
             else:
                 train.append(row)
+            count = count + 1
 
     #save test and train data to respective files
     with open('test.csv', 'w', encoding = "utf-8", newline = '') as file:
@@ -213,23 +207,21 @@ if __name__ == "__main__":
                 
     #iterate through different values of n to find the best
     best_m = []
-    best_p = 99999
+    best_p = math.inf
+    n = 0
     
     for i in range(7):
-
-        print(i+1)
         
         #initialize the model for that n value
-        model = Ngram(i+1, train, test)
+        model = Ngram(i+1, train)
         #evaluate the model for that n value
         perplexity = model.find_perplexity()
-
-        print(perplexity)
         
         #pick the current best n value or this n value based on the evaluation metric
         if best_p > perplexity:
 
             best_m = model
             best_p = perplexity
+            n = i + 1
 
-    pickle.dump(best_m, open('model.pkl', 'wb'))
+    print(f"model: {n} \nperplexity: {best_p}")
