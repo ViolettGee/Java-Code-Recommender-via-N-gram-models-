@@ -1,5 +1,4 @@
 #import necessary libraries
-import time
 import requests
 import csv
 
