@@ -2,7 +2,6 @@
 from decimal import Decimal
 import javalang
 import csv
-import pickle
 import math
 
 #class containing the n-gram model
