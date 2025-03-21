@@ -2,7 +2,6 @@
 from pathlib import Path
 import pandas as pd
 import javalang
-import re
 import numpy as np
 
 #function that removes duplicates from the data
